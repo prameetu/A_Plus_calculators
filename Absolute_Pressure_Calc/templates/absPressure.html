@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{%load static%}
+
+{%block meta%}
+<!-- HTML Defaults Broweser -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap Stylesheet and Jquery, Google APIS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/lvels/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/lvels/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- Online Calculator Guru Site Fevicon -->
+<link rel="shortcut icon" href="https://onlinecalculator.guru/static/images/logo/Online-Calculator-Guru-Fevicon.png"
+    type="icon">
+<!-- Online Calculator Guru Project Style Sheet -->
+{%block css%}
+<link rel="stylesheet" href="https://onlinecalculator.guru/static/style.css">
+{%endblock%}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- Meta Title, Description and Canonical URL Starts --->
+<title>Absolute Pressure Calculator</title>
+<meta name="description" content="This calculator determines the absolute pressure with step by step procedures." />
+<link rel="canonical" href="{{request.build_absolute_uri}}">
+<!-- Meta Title, Description and Canonical URL ENDS --->
+
+<!-- OPEN GRAPH CONFIGURATIONS STARTS -->
+<!--  FACEBOOK CONFIGURATION STARTS  -->
+<meta content="https://www.facebook.com/OnlineCalculator-Guru-131572098650589/" property="og:url" />
+<meta property="og:title" content="Theoretical Yeild Calculator | Free Calculator to find Theoretical Yeild" />
+<meta property="og:description" content="Theoretical Yeild Calculator" />
+<meta content="" property="og:site_name" />
+<meta content="https://onlinecalculator.guru/static/images/Chemistry/Theoratical-Yield-Calculator.jpeg"
+    property="og:image" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:height" content="435" />
+<meta property="og:image:width" content="354" />
+<!--  FACEBOOK CONFIGURATION ENDS  -->
+<!-- TWITTER CARD CONFIGURATION STARTS  -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="https://twitter.com/onlinecalculator" />
+<meta name="twitter:title" content="Theoretical Yeild Calculator | Free Calculator to find Theoretical Yeild" />
+<meta name="twitter:description"
+    content="Magnetic force between wires Calculator makes it easy for you to find magnetic force between wires." />
+<meta name="twitter:image:src"
+    content="https://onlinecalculator.guru/static/images/Chemistry/Theoratical-Yield-Calculator.jpeg" />
+<meta property="twitter:image:height" content="435" />
+<meta property="twitter:image:width" content="354" />
+<!-- TWITTER CARD CONFIGURATION ENDS  -->
+<!--  LINKEDIN CONFIGURATION STARTS-->
+<meta property='og:title' content="Theoretical Yeild Calculatorr | Theoretical Yeild" />
+<meta property='og:image'
+    content="https://onlinecalculator.guru/static/images/Chemistry/Theoratical-Yield-Calculator.jpeg" />
+<meta property='og:description' content="Magnetic force between wires Calculator." />
+<meta property='og:url' content="https://www.linkedin.com/in/onlinecalculator/" />
+<!-- end of linkedin CONFIGURATIONS ENDS -->
+<!-- OPEN GRAPH CONFIGURATION ENDS -->
+<!-- FAQ SCHEMA STARTS -->
+
+{%endblock%}
+
+{%block content%}
+
+
+<div class="container" style="height: auto !important;">
+    <div class="card c1">
+        <div class="card-header">
+            <h1 class="h1">Absolute Pressure Calculator</h1>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <p {% if message.tags %} id="message_container" class="alert alert-danger text-center" {% endif %}
+                    style="color:red">{{ message }}</p>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <form action="" method="POST" id="my_form">
+                {% csrf_token %}
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><strong>Gauge Pressure (P<sub>g</sub>)</strong></div>
+                    </div>
+                    <input type="number" min="0.00000001" max="999999999" oninput="validateNumber(this);"
+                        id="inlineFormInputGroup" required="" placeholder="Enter Gauge Pressure" class="form-control"
+                        name="gauge" value="{{ gauge }}">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><strong>P</strong></div>
+                    </div>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><strong>Atmospheric Pressure(P<sub>a</sub>)</strong></div>
+                    </div>
+                    <input type="number" min="0.00000001" max="999999999" oninput="validateNumber(this);"
+                        id="inlineFormInputGroup" required="" placeholder="Enter Atmospheric Pressure" class="form-control"
+                        name="atm" value="{{ atm }}">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><strong>P</strong></div>
+                    </div>
+
+                </div>
+
+                
+
+                <div class=" center col mt-2 ">
+                    <center><button type="submit" class="btn btn-primary" name="f1">Calculate</button>
+                        <button type="button" onclick="myFunction()" style="margin-top:5px;"
+                            class="btn btn-danger">Reset</button>
+                    </center>
+                </div>
+            </form>
+        </div>
+
+        {% if id == 1%}
+        <div id="clear">
+
+            <div class="card" id="abs-press-calc">
+                <div class="card-header">
+                    <h2 class="h2">Steps to Calculate Absolute Pressure</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <strong>Absolute Pressure Formula:</strong>
+                    <br>
+
+                    <p class="btn btn-outline-secondary active"> P<sub>a</sub> = P<sub>g</sub> + P<sub>atm</sub> </p>
+
+
+                    <br>
+                    <strong>where:</strong>
+                    <ul>
+                        <li>P<sub>a</sub> is the Absolute Pressure </li>
+                        <li>P<sub>g</sub> is the Gauge Pressure</li>
+                        <li>P<sub>atm</sub> is the Atmospheric Pressure</li>
+                    </ul>
+
+                    <strong>Input values are:-</strong>
+                    <p>Gauge Pressure = {{gauge}}  </p>
+                    <p>Atmospheric Pressure = {{atm}} </p>
+
+
+                    <!-- {% if freq_unit != 'Hz' %}
+                    <details style="border:2px solid #009FE8; width:100%;">
+                        <summary>
+                            <b>Convert the Frequency {{initial_freq}}<b><i>"{{initial_freq_unit}}"</i></b> to
+                                <b><i>"Hz"</i></b></b>
+                        </summary>
+                        <p>Frequency in {{initial_freq_unit}} = {{initial_freq}} {{initial_freq_unit}}</p>
+                        <p>Frequency in "Hz" ={{freq}} Hz </p>
+                    </details>
+                    {% endif %}
+
+                    {% if vel_unit != 'm/s' %}
+                    <details style="border:2px solid #009FE8; width:100%;">
+                        <summary>
+                            <b>Convert the Velocity {{initial_vel}}<b><i>"{{initial_vel_unit}}"</i></b> to
+                                <b><i>"m/s"</i></b></b>
+                        </summary>
+                        <p>Velocity in {{initial_vel_unit}} ={{initial_vel}} {{initial_vel_unit}}</p>
+                        <p>Velocity in "m/s" ={{vel}} m/s </p>
+                    </details>
+                    {% endif %} -->
+
+
+                    <strong>Put values into formula</strong>
+                    <p> P<sub>a</sub> = P<sub>g</sub> + P<sub>atm</sub>  </p>
+                    <p> P<sub>a</sub> = {{gauge}} + {{atm}} </p>
+                    <p><b>  P<sub>a</sub>= {{ans}}  </b></p>
+
+                </div>
+
+            </div>
+            {% endif %}
+
+            <script>
+
+                {% if id == 1 %}
+
+                var scrollDiv = document.getElementById("clear").offsetTop;
+                window.scrollTo({ top: scrollDiv, behavior: 'smooth' });
+
+                {% endif %}
+
+                function myFunction() {
+                    document.getElementsByName("freq")[0].value = "";
+                    document.getElementsByName("vel")[0].value = "";
+                    document.getElementsByName("freq_unit")[0].value = "Hz";
+                    document.getElementsByName("vel_unit")[0].value = "m/s";
+
+                    document.getElementById("clear").innerHTML = "";
+
+                }
+            </script>
+
+            {% endblock %}
