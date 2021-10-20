@@ -25,11 +25,8 @@ def convert(val,inp,num):
 def abs_pressure(request):
 
     if request.method == "POST":
-        print("POSt")
         gauge = int(request.POST.get('gauge'))
         atm = int(request.POST.get('atm'))
-
-
 
         ans = atm + gauge
         ans = round(ans,3)

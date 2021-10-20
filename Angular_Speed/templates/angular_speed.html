@@ -22,8 +22,9 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <!-- Meta Title, Description and Canonical URL Starts --->
-<title>Absolute Pressure Calculator</title>
-<meta name="description" content="This calculator determines the absolute pressure with step by step procedures." />
+<title>Angular Speed Calculator</title>
+<meta name="description"
+    content="This calculator determines the angular spped of the object if its frequency is known." />
 <link rel="canonical" href="{{request.build_absolute_uri}}">
 <!-- Meta Title, Description and Canonical URL ENDS --->
 
@@ -68,7 +69,7 @@
 <div class="container" style="height: auto !important;">
     <div class="card c1">
         <div class="card-header">
-            <h1 class="h1">Absolute Pressure Calculator</h1>
+            <h1 class="h1">Angular Speed Calculator</h1>
         </div>
         <div class="card-body">
             {% if messages %}
@@ -84,30 +85,46 @@
                 {% csrf_token %}
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
-                        <div class="input-group-text"><strong>Gauge Pressure (P<sub>g</sub>)</strong></div>
+                        <div class="input-group-text"><strong>Frequency</strong></div>
                     </div>
                     <input type="number" min="0.00000001" max="999999999" oninput="validateNumber(this);"
-                        id="inlineFormInputGroup" required="" placeholder="Enter Gauge Pressure" class="form-control"
-                        name="gauge" value="{{ gauge }}">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><strong>P</strong></div>
-                    </div>
-
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                        id="inlineFormInputGroup" required="" placeholder="Enter Object Frequency" class="form-control"
+                        name="freq" value="{{ initial_freq }}">
 
 
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><strong>Atmospheric Pressure(P<sub>a</sub>)</strong></div>
-                    </div>
-                    <input type="number" min="0.00000001" max="999999999" oninput="validateNumber(this);"
-                        id="inlineFormInputGroup" required="" placeholder="Enter Atmospheric Pressure"
-                        class="form-control" name="atm" value="{{ atm }}">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><strong>P</strong></div>
-                    </div>
+                    <select class="select form-control" id="inlineFormInputGroup" name="freq_unit">
 
+                        {% if freq_unit == 'Hz' %}
+                        <option value="Hz" selected="selected"> Hertz (Hz)</option>
+                        {% else %}
+                        <option value="Hz">Hertz (Hz)</option>
+                        {% endif %}
+
+                        {% if freq_unit == 'kHz' %}
+                        <option value="kHz" selected="selected">Kilo Hertz (kHz)</option>
+                        {% else %}
+                        <option value="kHz">Kilo Hertz (kHz)</option>
+                        {% endif %}
+
+
+                        {% if freq_unit == 'MHz' %}
+                        <option value="MHz" selected="selected">Mega Hertz (MHz)</option>
+                        {% else %}
+                        <option value="MHz">Mega Hertz (MHz)</option>
+                        {% endif %}
+
+
+
+                        {% if freq_unit == 'GHz' %}
+                        <option value="GHz" selected="selected">Giga Hertz (GHz)</option>
+                        {% else %}
+                        <option value="GHz">Giga Hertz (GHz)</option>
+                        {% endif %}
+
+                    </select>
                 </div>
 
+                
 
                 <div class=" center col mt-2 ">
                     <center><button type="submit" class="btn btn-primary" name="f1">Calculate</button>
@@ -117,68 +134,76 @@
                 </div>
             </form>
         </div>
-    </div>
 
-    {% if id == 1%}
-    <div id="clear">
+        {% if id == 1%}
+        <div id="clear">
 
-        <div class="card" id="abs-press-calc">
-            <div class="card-header">
-                <h2 class="h2">Steps to Calculate Absolute Pressure</h2>
+            <div class="card" id="wavelength-calc">
+                <div class="card-header">
+                    <h2 class="h2">Steps to Calculate Angular Speed</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <strong>Angular Speed Formula:</strong>
+                    <br>
+
+                    <p class="btn btn-outline-secondary active"> ω = 2πƒ </p>
+
+
+                    <br>
+                    <strong>where:</strong>
+                    <ul>
+                        <li>ω is the angular speed of object </li>
+                        <li>ƒ is the frequency of the object</li>
+                        <li>π is 3.14</li>
+
+                    </ul>
+
+                    <strong>Input values are:-</strong>
+                    <p>Frequency = {{initial_freq}} {{initial_freq_unit}} </p>
+
+
+                    {% if initial_freq_unit != 'Hz' %}
+                    <details style="border:2px solid #009FE8; width:100%;">
+                        <summary>
+                            <b>Convert the Frequency {{initial_freq}}<b><i>"{{initial_freq_unit}}"</i></b> to
+                                <b><i>"Hz"</i></b></b>
+                        </summary>
+                        <p>Frequency in {{initial_freq_unit}} = {{initial_freq}} {{initial_freq_unit}}</p>
+                        <p>Frequency in "Hz" ={{freq}} Hz </p>
+                    </details>
+                    {% endif %}
+
+                    
+
+
+                    <strong>Put values into formula</strong>
+                    <p> ω = 2πƒ </p>
+                    <p> ω = 2 X 3.14 X {{freq}} </p>
+                    <p><b> ω= {{ans}} m (in meteres) </b></p>
+
+                </div>
+
             </div>
-
-            <div class="card-body">
-
-                <strong>Absolute Pressure Formula:</strong>
-                <br>
-
-                <p class="btn btn-outline-secondary active"> P<sub>a</sub> = P<sub>g</sub> + P<sub>atm</sub> </p>
-                <p>The absolute pressure is the pressure of having no matter inside a space or perfect vacuum. The
-                    measurement of barometric pressure is the example of an absolute referenced pressure.</p>
-                <p>It is the sum of Gauge Pressure and Atmospheric Pressure.</p>
-
-                <br>
-                <strong>where:</strong>
-                <ul>
-                    <li>P<sub>a</sub> is the Absolute Pressure </li>
-                    <li>P<sub>g</sub> is the Gauge Pressure</li>
-                    <li>P<sub>atm</sub> is the Atmospheric Pressure</li>
-                </ul>
-
-                <strong>Input values are:-</strong>
-                <p>Gauge Pressure = {{gauge}} P </p>
-                <p>Atmospheric Pressure = {{atm}} P </p>
-
-
-
-
-                <strong>Put values into formula</strong>
-                <p> P<sub>a</sub> = P<sub>g</sub> + P<sub>atm</sub> </p>
-                <p> P<sub>a</sub> = {{gauge}} P + {{atm}} P </p>
-                <p><b> P<sub>a</sub>= {{ans}} P </b></p>
-
-            </div>
-
-        </div>
-        {% endif %}
-
-        <script>
-
-            {% if id == 1 %}
-
-            var scrollDiv = document.getElementById("clear").offsetTop;
-            window.scrollTo({ top: scrollDiv, behavior: 'smooth' });
-
             {% endif %}
 
-            function myFunction() {
-                document.getElementsByName("gauge")[0].value = "";
-                document.getElementsByName("atm")[0].value = "";
+            <script>
 
+                {% if id == 1 %}
 
-                document.getElementById("clear").innerHTML = "";
+                var scrollDiv = document.getElementById("clear").offsetTop;
+                window.scrollTo({ top: scrollDiv, behavior: 'smooth' });
 
-            }
-        </script>
+                {% endif %}
 
-        {% endblock %}
+                function myFunction() {
+                    document.getElementsByName("freq")[0].value = "";
+                    document.getElementsByName("freq_unit")[0].value = "Hz";
+
+                    document.getElementById("clear").innerHTML = "";
+
+                }
+            </script>
+
+            {% endblock %}
